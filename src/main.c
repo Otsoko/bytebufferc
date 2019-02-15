@@ -45,8 +45,8 @@ int main(int argc, char const *argv[]) {
     printf("float at: %f\n", bb_get_float_at(bb, 0));
     bb_destroy(&bb);
 
-    //bb_init(&bb, 3);
-    bb_init_order(&bb, 3, BB_BIG_ENDIAN);
+    //bb_init(&bb, 7);
+    bb_init_order(&bb, 7, BB_BIG_ENDIAN);
     bb_put(&bb, 33);
     bb_print(bb);
     bb_put_at(&bb, 0, 22);
@@ -55,6 +55,9 @@ int main(int argc, char const *argv[]) {
     bb_print(bb);
     bb_put_short_at(&bb, 0, 133);
     bb_print(bb);
+    bb_put_int(&bb, 70123);
+    bb_print(bb);
+    printf("int at: %d\n", bb_get_int_at(bb, 3));
     bb_destroy(&bb);
 
     return 0;

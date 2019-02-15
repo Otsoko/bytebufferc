@@ -52,5 +52,6 @@ void bb_put(bytebuffer_t *bytebuffer, uint8_t value);
 void bb_put_at(bytebuffer_t *bytebuffer, size_t index, uint8_t value);
 void bb_put_short(bytebuffer_t *bytebuffer, uint16_t value);
 void bb_put_short_at(bytebuffer_t *bytebuffer, size_t index, uint16_t value);
+void bb_put_int(bytebuffer_t *bytebuffer, uint32_t value);
 
 #endif

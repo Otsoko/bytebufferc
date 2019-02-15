@@ -320,3 +320,27 @@ void bb_put_short_at(bytebuffer_t *bytebuffer, size_t index, uint16_t value) {
         bb_put_short_l_at(bytebuffer, index, value);
     }
 }
+
+static void bb_put_int_l(bytebuffer_t *bytebuffer, uint32_t value) {
+    bytebuffer->buff[bytebuffer->pos++] = value & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 8) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 16) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 24) & 0xFF;
+}
+
+static void bb_put_int_b(bytebuffer_t *bytebuffer, uint32_t value) {
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 24) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 16) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 8) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = value & 0xFF;
+}
+
+void bb_put_int(bytebuffer_t *bytebuffer, uint32_t value) {
+    if (bytebuffer->bigEndian) {
+        printf("put int big endian\n");
+        bb_put_int_b(bytebuffer, value);
+    } else {
+        printf("put int little endian\n");
+        bb_put_int_l(bytebuffer, value);
+    }
+}
