@@ -2,6 +2,40 @@
 #include <stdio.h>
 #include <string.h>
 
+static bb_order_t bb_get_machine_endianness(void) {
+    uint32_t   i = 1;
+    char *     c = (char *) &i;
+    bb_order_t order;
+
+    if (*c) {
+        printf("This machine is little endian\n");
+        order = BB_LITTLE_ENDIAN;
+    } else {
+        printf("This machine is big endian");
+        order = BB_BIG_ENDIAN;
+    }
+
+    return order;
+}
+
+static float bb_int_bits_to_float(uint32_t value) {
+    FloatB valueB;
+
+    if (bb_get_machine_endianness() == BB_LITTLE_ENDIAN) {
+        valueB.bytes[0] = value & 0xFF;
+        valueB.bytes[1] = (value >> 8) & 0xFF;
+        valueB.bytes[2] = (value >> 16) & 0xFF;
+        valueB.bytes[3] = (value >> 24) & 0xFF;
+    } else {
+        valueB.bytes[3] = value & 0xFF;
+        valueB.bytes[2] = (value >> 8) & 0xFF;
+        valueB.bytes[1] = (value >> 16) & 0xFF;
+        valueB.bytes[0] = (value >> 24) & 0xFF;
+    }
+
+    return valueB.value;
+}
+
 void bb_init(bytebuffer_t *bytebuffer, size_t size) {
     printf("Init\n");
     bytebuffer->size      = size;
@@ -24,6 +58,7 @@ void bb_init_order(bytebuffer_t *bytebuffer, size_t size, bb_order_t order) {
 }
 
 void bb_init_str(bytebuffer_t *bytebuffer, const char *hexstring) {
+    bb_get_machine_endianness();
     printf("Init str\n");
     bytebuffer->size      = strlen(hexstring) / 2;
     bytebuffer->pos       = 0;
