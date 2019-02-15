@@ -321,6 +321,54 @@ uint64_t bb_get_long(bytebuffer_t *bytebuffer) {
     return res;
 }
 
+static uint64_t bb_get_long_l_at(bytebuffer_t bytebuffer, size_t index) {
+    uint8_t b7 = bytebuffer.buff[index + 7];
+    uint8_t b6 = bytebuffer.buff[index + 6];
+    uint8_t b5 = bytebuffer.buff[index + 5];
+    uint8_t b4 = bytebuffer.buff[index + 4];
+    uint8_t b3 = bytebuffer.buff[index + 3];
+    uint8_t b2 = bytebuffer.buff[index + 2];
+    uint8_t b1 = bytebuffer.buff[index + 1];
+    uint8_t b0 = bytebuffer.buff[index];
+
+    uint64_t ll = (((uint64_t) b7 & 0xFF) << 56) | (((uint64_t) b6 & 0xFF) << 48) |
+                  (((uint64_t) b5 & 0xFF) << 40) | (((uint64_t) b4 & 0xFF) << 32) |
+                  (((uint64_t) b3 & 0xFF) << 24) | (((uint64_t) b2 & 0xFF) << 16) |
+                  (((uint64_t) b1 & 0xFF) << 8) | ((uint64_t) b0 & 0xFF);
+
+    return ll;
+}
+
+static uint64_t bb_get_long_b_at(bytebuffer_t bytebuffer, size_t index) {
+    uint8_t b0 = bytebuffer.buff[index + 7];
+    uint8_t b1 = bytebuffer.buff[index + 6];
+    uint8_t b2 = bytebuffer.buff[index + 5];
+    uint8_t b3 = bytebuffer.buff[index + 4];
+    uint8_t b4 = bytebuffer.buff[index + 3];
+    uint8_t b5 = bytebuffer.buff[index + 2];
+    uint8_t b6 = bytebuffer.buff[index + 1];
+    uint8_t b7 = bytebuffer.buff[index];
+
+    uint64_t ll = (((uint64_t) b7 & 0xFF) << 56) | (((uint64_t) b6 & 0xFF) << 48) |
+                  (((uint64_t) b5 & 0xFF) << 40) | (((uint64_t) b4 & 0xFF) << 32) |
+                  (((uint64_t) b3 & 0xFF) << 24) | (((uint64_t) b2 & 0xFF) << 16) |
+                  (((uint64_t) b1 & 0xFF) << 8) | ((uint64_t) b0 & 0xFF);
+
+    return ll;
+}
+
+uint64_t bb_get_long_at(bytebuffer_t bytebuffer, size_t index) {
+    uint64_t res = 0;
+    if (bytebuffer.bigEndian) {
+        printf("get long big endian at\n");
+        res = bb_get_long_b_at(bytebuffer, index);
+    } else {
+        printf("get long little endian at\n");
+        res = bb_get_long_l_at(bytebuffer, index);
+    }
+    return res;
+}
+
 /*
  * Put methods
  */
