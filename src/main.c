@@ -58,6 +58,9 @@ int main(int argc, char const *argv[]) {
     bb_put_int(&bb, 70123);
     bb_print(bb);
     printf("int at: %d\n", bb_get_int_at(bb, 3));
+    bb_put_int_at(&bb, 2, 70123);
+    bb_print(bb);
+    printf("int at: %d\n", bb_get_int_at(bb, 2));
     bb_destroy(&bb);
 
     return 0;
