@@ -18,6 +18,7 @@ int main(int argc, char const *argv[]) {
     printf("short at: %d\n", bb_get_short_at(bb, 1));
     bb_reset(&bb);
     printf("int: %d\n", bb_get_int(&bb));
+    printf("int at: %d\n", bb_get_int_at(bb, 0));
     bb_destroy(&bb);
 
     printf("\n");
@@ -35,9 +36,7 @@ int main(int argc, char const *argv[]) {
     printf("short at: %d\n", bb_get_short_at(bb, 1));
     bb_reset(&bb);
     printf("int: %d\n", bb_get_int(&bb));
-    bb_destroy(&bb);
-
-    bb_init_order(&bb, 3, 3);
+    printf("int at: %d\n", bb_get_int_at(bb, 0));
     bb_destroy(&bb);
 
     return 0;

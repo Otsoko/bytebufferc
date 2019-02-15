@@ -187,3 +187,33 @@ uint32_t bb_get_int(bytebuffer_t *bytebuffer) {
     }
     return res;
 }
+
+static uint32_t bb_get_int_l_at(bytebuffer_t bytebuffer, size_t index) {
+    uint8_t b3 = bytebuffer.buff[index + 3];
+    uint8_t b2 = bytebuffer.buff[index + 2];
+    uint8_t b1 = bytebuffer.buff[index + 1];
+    uint8_t b0 = bytebuffer.buff[index];
+
+    return (b3 << 24) | ((b2 & 0xFF) << 16) | ((b1 & 0xFF) << 8) | (b0 & 0xFF);
+}
+
+static uint32_t bb_get_int_b_at(bytebuffer_t bytebuffer, size_t index) {
+    uint8_t b0 = bytebuffer.buff[index + 3];
+    uint8_t b1 = bytebuffer.buff[index + 2];
+    uint8_t b2 = bytebuffer.buff[index + 1];
+    uint8_t b3 = bytebuffer.buff[index];
+
+    return (b3 << 24) | ((b2 & 0xFF) << 16) | ((b1 & 0xFF) << 8) | (b0 & 0xFF);
+}
+
+uint32_t bb_get_int_at(bytebuffer_t bytebuffer, size_t index) {
+    uint32_t res = 0;
+    if (bytebuffer.bigEndian) {
+        printf("get int big endian at\n");
+        res = bb_get_int_b_at(bytebuffer, index);
+    } else {
+        printf("get int little endian at\n");
+        res = bb_get_int_l_at(bytebuffer, index);
+    }
+    return res;
+}
