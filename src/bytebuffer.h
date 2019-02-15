@@ -1,7 +1,10 @@
 #ifndef _BYTEBUFFER_H_
 #define _BYTEBUFFER_H_
 
+#ifndef uint8_t
 #include <stdint.h>
+#endif
+
 #include <stdlib.h>
 
 typedef union {
