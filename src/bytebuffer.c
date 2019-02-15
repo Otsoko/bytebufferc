@@ -368,3 +368,31 @@ void bb_put_int_at(bytebuffer_t *bytebuffer, size_t index, uint32_t value) {
         bb_put_int_l_at(bytebuffer, index, value);
     }
 }
+
+static void bb_put_float_l(bytebuffer_t *bytebuffer, float value) {
+    FloatB valueB;
+    valueB.value = value;
+
+    bytebuffer->buff[bytebuffer->pos++] = valueB.bytes[0];
+    bytebuffer->buff[bytebuffer->pos++] = valueB.bytes[1];
+    bytebuffer->buff[bytebuffer->pos++] = valueB.bytes[2];
+    bytebuffer->buff[bytebuffer->pos++] = valueB.bytes[3];
+}
+
+static void bb_put_float_b(bytebuffer_t *bytebuffer, float value) {
+    FloatB valueB;
+    valueB.value = value;
+
+    bytebuffer->buff[bytebuffer->pos++] = valueB.bytes[3];
+    bytebuffer->buff[bytebuffer->pos++] = valueB.bytes[2];
+    bytebuffer->buff[bytebuffer->pos++] = valueB.bytes[1];
+    bytebuffer->buff[bytebuffer->pos++] = valueB.bytes[0];
+}
+
+void bb_put_float(bytebuffer_t *bytebuffer, float value) {
+    if (bytebuffer->bigEndian) {
+        bb_put_float_b(bytebuffer, value);
+    } else {
+        bb_put_float_l(bytebuffer, value);
+    }
+}
