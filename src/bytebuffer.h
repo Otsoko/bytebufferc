@@ -50,6 +50,7 @@ float    bb_get_float(bytebuffer_t *bytebuffer);
 float    bb_get_float_at(bytebuffer_t bytebuffer, size_t index);
 uint64_t bb_get_long(bytebuffer_t *bytebuffer);
 uint64_t bb_get_long_at(bytebuffer_t bytebuffer, size_t index);
+double   bb_get_double(bytebuffer_t *bytebuffer);
 
 void bb_put(bytebuffer_t *bytebuffer, uint8_t value);
 void bb_put_at(bytebuffer_t *bytebuffer, size_t index, uint8_t value);
