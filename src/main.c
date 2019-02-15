@@ -65,6 +65,9 @@ int main(int argc, char const *argv[]) {
     bb_put_float(&bb, 82.56f);
     bb_print(bb);
     printf("float at: %f\n", bb_get_float_at(bb, 0));
+    bb_put_float_at(&bb, 2, 33.56f);
+    bb_print(bb);
+    printf("float at: %f\n", bb_get_float_at(bb, 2));
     bb_destroy(&bb);
 
     return 0;

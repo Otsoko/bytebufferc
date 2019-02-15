@@ -396,3 +396,33 @@ void bb_put_float(bytebuffer_t *bytebuffer, float value) {
         bb_put_float_l(bytebuffer, value);
     }
 }
+
+static void bb_put_float_l_at(bytebuffer_t *bytebuffer, size_t index, float value) {
+    FloatB valueB;
+    valueB.value = value;
+
+    bytebuffer->buff[index++] = valueB.bytes[0];
+    bytebuffer->buff[index++] = valueB.bytes[1];
+    bytebuffer->buff[index++] = valueB.bytes[2];
+    bytebuffer->buff[index]   = valueB.bytes[3];
+}
+
+static void bb_put_float_b_at(bytebuffer_t *bytebuffer, size_t index, float value) {
+    FloatB valueB;
+    valueB.value = value;
+
+    bytebuffer->buff[index++] = valueB.bytes[3];
+    bytebuffer->buff[index++] = valueB.bytes[2];
+    bytebuffer->buff[index++] = valueB.bytes[1];
+    bytebuffer->buff[index]   = valueB.bytes[0];
+}
+
+void bb_put_float_at(bytebuffer_t *bytebuffer, size_t index, float value) {
+    if (bytebuffer->bigEndian) {
+        printf("put float at big endian\n");
+        bb_put_float_b_at(bytebuffer, index, value);
+    } else {
+        printf("put float at little endian\n");
+        bb_put_float_l_at(bytebuffer, index, value);
+    }
+}
