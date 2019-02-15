@@ -542,3 +542,31 @@ void bb_put_long_at(bytebuffer_t *bytebuffer, size_t index, uint64_t value) {
         bb_put_long_l_at(bytebuffer, index, value);
     }
 }
+
+static void bb_put_double_l(bytebuffer_t *bytebuffer, double value) {
+    DoubleB valueB;
+    valueB.value = value;
+
+    for (int i = 0; i < 8; i++) {
+        bytebuffer->buff[bytebuffer->pos++] = valueB.bytes[i];
+    }
+}
+
+static void bb_put_double_b(bytebuffer_t *bytebuffer, double value) {
+    DoubleB valueB;
+    valueB.value = value;
+
+    for (int i = 7; i >= 0; i--) {
+        bytebuffer->buff[bytebuffer->pos++] = valueB.bytes[i];
+    }
+}
+
+void bb_put_double(bytebuffer_t *bytebuffer, double value) {
+    if (bytebuffer->bigEndian) {
+        printf("put double big endian\n");
+        bb_put_double_b(bytebuffer, value);
+    } else {
+        printf("put double little endian\n");
+        bb_put_double_l(bytebuffer, value);
+    }
+}

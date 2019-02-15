@@ -75,6 +75,9 @@ int main(int argc, char const *argv[]) {
     bb_print(bb);
     bb_reset(&bb);
     printf("long: %lu\n", bb_get_long(&bb));
+    bb_reset(&bb);
+    bb_put_double(&bb, 125.12563);
+    bb_print(bb);
     bb_destroy(&bb);
 
     return 0;

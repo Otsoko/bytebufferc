@@ -57,5 +57,6 @@ void bb_put_float(bytebuffer_t *bytebuffer, float value);
 void bb_put_float_at(bytebuffer_t *bytebuffer, size_t index, float value);
 void bb_put_long(bytebuffer_t *bytebuffer, uint64_t value);
 void bb_put_long_at(bytebuffer_t *bytebuffer, size_t index, uint64_t value);
+void bb_put_double(bytebuffer_t *bytebuffer, double value);
 
 #endif
