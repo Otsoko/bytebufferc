@@ -42,5 +42,7 @@ uint8_t *bb_get_bytes(bytebuffer_t bytebuffer);
 uint8_t  bb_get(bytebuffer_t *bytebuffer);
 uint8_t  bb_get_at(bytebuffer_t bytebuffer, size_t index);
 uint16_t bb_get_short(bytebuffer_t *bytebuffer);
+uint16_t bb_get_short_at(bytebuffer_t bytebuffer, size_t index);
+uint32_t bb_get_int(bytebuffer_t *bytebuffer);
 
 #endif

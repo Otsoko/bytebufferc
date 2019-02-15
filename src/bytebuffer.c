@@ -127,3 +127,63 @@ uint16_t bb_get_short(bytebuffer_t *bytebuffer) {
     }
     return res;
 }
+
+static uint16_t bb_get_short_l_at(bytebuffer_t bytebuffer, size_t index) {
+    uint8_t b1 = bytebuffer.buff[index + 1];
+    uint8_t b0 = bytebuffer.buff[index];
+
+    return ((b1 & 0xFF) << 8) | (b0 & 0xFF);
+}
+
+static uint16_t bb_get_short_b_at(bytebuffer_t bytebuffer, size_t index) {
+    uint8_t b0 = bytebuffer.buff[index + 1];
+    uint8_t b1 = bytebuffer.buff[index];
+
+    return ((b1 & 0xFF) << 8) | (b0 & 0xFF);
+}
+
+uint16_t bb_get_short_at(bytebuffer_t bytebuffer, size_t index) {
+    uint16_t res = 0;
+    if (bytebuffer.bigEndian) {
+        printf("get short big endian at\n");
+        res = bb_get_short_b_at(bytebuffer, index);
+    } else {
+        printf("get short little endian at\n");
+        res = bb_get_short_l_at(bytebuffer, index);
+    }
+    return res;
+}
+
+static uint32_t bb_get_int_l(bytebuffer_t *bytebuffer) {
+    uint8_t b3 = bytebuffer->buff[bytebuffer->pos + 3];
+    uint8_t b2 = bytebuffer->buff[bytebuffer->pos + 2];
+    uint8_t b1 = bytebuffer->buff[bytebuffer->pos + 1];
+    uint8_t b0 = bytebuffer->buff[bytebuffer->pos];
+
+    bytebuffer->pos += 4;
+
+    return (b3 << 24) | ((b2 & 0xFF) << 16) | ((b1 & 0xFF) << 8) | (b0 & 0xFF);
+}
+
+static uint32_t bb_get_int_b(bytebuffer_t *bytebuffer) {
+    uint8_t b0 = bytebuffer->buff[bytebuffer->pos + 3];
+    uint8_t b1 = bytebuffer->buff[bytebuffer->pos + 2];
+    uint8_t b2 = bytebuffer->buff[bytebuffer->pos + 1];
+    uint8_t b3 = bytebuffer->buff[bytebuffer->pos];
+
+    bytebuffer->pos += 4;
+
+    return (b3 << 24) | ((b2 & 0xFF) << 16) | ((b1 & 0xFF) << 8) | (b0 & 0xFF);
+}
+
+uint32_t bb_get_int(bytebuffer_t *bytebuffer) {
+    uint32_t res = 0;
+    if (bytebuffer->bigEndian) {
+        printf("get int big endian\n");
+        res = bb_get_int_b(bytebuffer);
+    } else {
+        printf("get int little endian\n");
+        res = bb_get_int_l(bytebuffer);
+    }
+    return res;
+}
