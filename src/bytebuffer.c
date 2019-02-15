@@ -269,6 +269,58 @@ float bb_get_float_at(bytebuffer_t bytebuffer, size_t index) {
     return bb_int_bits_to_float(bb_get_int_at(bytebuffer, index));
 }
 
+static uint64_t bb_get_long_l(bytebuffer_t *bytebuffer) {
+    uint8_t b7 = bytebuffer->buff[bytebuffer->pos + 7];
+    uint8_t b6 = bytebuffer->buff[bytebuffer->pos + 6];
+    uint8_t b5 = bytebuffer->buff[bytebuffer->pos + 5];
+    uint8_t b4 = bytebuffer->buff[bytebuffer->pos + 4];
+    uint8_t b3 = bytebuffer->buff[bytebuffer->pos + 3];
+    uint8_t b2 = bytebuffer->buff[bytebuffer->pos + 2];
+    uint8_t b1 = bytebuffer->buff[bytebuffer->pos + 1];
+    uint8_t b0 = bytebuffer->buff[bytebuffer->pos];
+
+    bytebuffer->pos += 8;
+
+    uint64_t ll = (((uint64_t) b7 & 0xFF) << 56) | (((uint64_t) b6 & 0xFF) << 48) |
+                  (((uint64_t) b5 & 0xFF) << 40) | (((uint64_t) b4 & 0xFF) << 32) |
+                  (((uint64_t) b3 & 0xFF) << 24) | (((uint64_t) b2 & 0xFF) << 16) |
+                  (((uint64_t) b1 & 0xFF) << 8) | ((uint64_t) b0 & 0xFF);
+
+    return ll;
+}
+
+static uint64_t bb_get_long_b(bytebuffer_t *bytebuffer) {
+    uint8_t b0 = bytebuffer->buff[bytebuffer->pos + 7];
+    uint8_t b1 = bytebuffer->buff[bytebuffer->pos + 6];
+    uint8_t b2 = bytebuffer->buff[bytebuffer->pos + 5];
+    uint8_t b3 = bytebuffer->buff[bytebuffer->pos + 4];
+    uint8_t b4 = bytebuffer->buff[bytebuffer->pos + 3];
+    uint8_t b5 = bytebuffer->buff[bytebuffer->pos + 2];
+    uint8_t b6 = bytebuffer->buff[bytebuffer->pos + 1];
+    uint8_t b7 = bytebuffer->buff[bytebuffer->pos];
+
+    bytebuffer->pos += 8;
+
+    uint64_t ll = (((uint64_t) b7 & 0xFF) << 56) | (((uint64_t) b6 & 0xFF) << 48) |
+                  (((uint64_t) b5 & 0xFF) << 40) | (((uint64_t) b4 & 0xFF) << 32) |
+                  (((uint64_t) b3 & 0xFF) << 24) | (((uint64_t) b2 & 0xFF) << 16) |
+                  (((uint64_t) b1 & 0xFF) << 8) | ((uint64_t) b0 & 0xFF);
+
+    return ll;
+}
+
+uint64_t bb_get_long(bytebuffer_t *bytebuffer) {
+    uint64_t res = 0;
+    if (bytebuffer->bigEndian) {
+        printf("get long big endian\n");
+        res = bb_get_long_b(bytebuffer);
+    } else {
+        printf("get long little endian\n");
+        res = bb_get_long_l(bytebuffer);
+    }
+    return res;
+}
+
 /*
  * Put methods
  */
@@ -424,5 +476,69 @@ void bb_put_float_at(bytebuffer_t *bytebuffer, size_t index, float value) {
     } else {
         printf("put float at little endian\n");
         bb_put_float_l_at(bytebuffer, index, value);
+    }
+}
+
+static void bb_put_long_l(bytebuffer_t *bytebuffer, uint64_t value) {
+    bytebuffer->buff[bytebuffer->pos++] = value & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 8) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 16) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 24) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 32) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 40) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 48) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 56) & 0xFF;
+}
+
+static void bb_put_long_b(bytebuffer_t *bytebuffer, uint64_t value) {
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 56) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 48) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 40) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 32) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 24) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 16) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 8) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = value & 0xFF;
+}
+
+void bb_put_long(bytebuffer_t *bytebuffer, uint64_t value) {
+    if (bytebuffer->bigEndian) {
+        printf("put long big endian\n");
+        bb_put_long_b(bytebuffer, value);
+    } else {
+        printf("put long little endian\n");
+        bb_put_long_l(bytebuffer, value);
+    }
+}
+
+static void bb_put_long_l_at(bytebuffer_t *bytebuffer, size_t index, uint64_t value) {
+    bytebuffer->buff[index++] = value & 0xFF;
+    bytebuffer->buff[index++] = (value >> 8) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 16) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 24) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 32) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 40) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 48) & 0xFF;
+    bytebuffer->buff[index]   = (value >> 56) & 0xFF;
+}
+
+static void bb_put_long_b_at(bytebuffer_t *bytebuffer, size_t index, uint64_t value) {
+    bytebuffer->buff[index++] = (value >> 56) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 48) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 40) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 32) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 24) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 16) & 0xFF;
+    bytebuffer->buff[index++] = (value >> 8) & 0xFF;
+    bytebuffer->buff[index++] = value & 0xFF;
+}
+
+void bb_put_long_at(bytebuffer_t *bytebuffer, size_t index, uint64_t value) {
+    if (bytebuffer->bigEndian) {
+        printf("put long at big endian\n");
+        bb_put_long_b_at(bytebuffer, index, value);
+    } else {
+        printf("put long at little endian\n");
+        bb_put_long_l_at(bytebuffer, index, value);
     }
 }
