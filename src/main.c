@@ -82,6 +82,8 @@ int main(int argc, char const *argv[]) {
     bb_put_double_at(&bb, 0, 125.12563);
     bb_reset(&bb);
     printf("double: %f\n", bb_get_double(&bb));
+
+    printf("double at: %f\n", bb_get_double_at(bb, 0));
     bb_print(bb);
     bb_destroy(&bb);
 

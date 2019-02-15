@@ -401,6 +401,38 @@ double bb_get_double(bytebuffer_t *bytebuffer) {
     return res;
 }
 
+static double bb_get_double_l_at(bytebuffer_t bytebuffer, size_t index) {
+    DoubleB valueB;
+
+    for (int i = 0; i < 8; i++) {
+        valueB.bytes[i] = bytebuffer.buff[index++];
+    }
+
+    return valueB.value;
+}
+
+static double bb_get_double_b_at(bytebuffer_t bytebuffer, size_t index) {
+    DoubleB valueB;
+
+    for (int i = 7; i >= 0; i--) {
+        valueB.bytes[i] = bytebuffer.buff[index++];
+    }
+
+    return valueB.value;
+}
+
+double bb_get_double_at(bytebuffer_t bytebuffer, size_t index) {
+    double res = 0;
+    if (bytebuffer.bigEndian) {
+        printf("get long big endian at\n");
+        res = bb_get_double_b_at(bytebuffer, index);
+    } else {
+        printf("get long little endian at\n");
+        res = bb_get_double_l_at(bytebuffer, index);
+    }
+    return res;
+}
+
 /*
  * Put methods
  */
