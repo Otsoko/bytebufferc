@@ -36,6 +36,10 @@ static float bb_int_bits_to_float(uint32_t value) {
     return valueB.value;
 }
 
+/*
+ * Initialization and destruction
+ */
+
 void bb_init(bytebuffer_t *bytebuffer, size_t size) {
     printf("Init\n");
     bytebuffer->size      = size;
@@ -124,6 +128,10 @@ void bb_reset(bytebuffer_t *bytebuffer) {
 uint8_t *bb_get_bytes(bytebuffer_t bytebuffer) {
     return bytebuffer.buff;
 }
+
+/*
+ * Get methods
+ */
 
 uint8_t bb_get(bytebuffer_t *bytebuffer) {
     return bytebuffer->buff[bytebuffer->pos++];
@@ -251,4 +259,64 @@ uint32_t bb_get_int_at(bytebuffer_t bytebuffer, size_t index) {
         res = bb_get_int_l_at(bytebuffer, index);
     }
     return res;
+}
+
+float bb_get_float(bytebuffer_t *bytebuffer) {
+    return bb_int_bits_to_float(bb_get_int(bytebuffer));
+}
+
+float bb_get_float_at(bytebuffer_t bytebuffer, size_t index) {
+    return bb_int_bits_to_float(bb_get_int_at(bytebuffer, index));
+}
+
+/*
+ * Put methods
+ */
+
+void bb_put(bytebuffer_t *bytebuffer, uint8_t value) {
+    bytebuffer->buff[bytebuffer->pos++] = value;
+}
+
+void bb_put_at(bytebuffer_t *bytebuffer, size_t index, uint8_t value) {
+    bytebuffer->buff[index] = value;
+}
+
+static void bb_put_short_l(bytebuffer_t *bytebuffer, uint16_t value) {
+    bytebuffer->buff[bytebuffer->pos++] = value & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 8) & 0xFF;
+}
+
+static void bb_put_short_b(bytebuffer_t *bytebuffer, uint16_t value) {
+    bytebuffer->buff[bytebuffer->pos++] = (value >> 8) & 0xFF;
+    bytebuffer->buff[bytebuffer->pos++] = value & 0xFF;
+}
+
+void bb_put_short(bytebuffer_t *bytebuffer, uint16_t value) {
+    if (bytebuffer->bigEndian) {
+        printf("put short big endian\n");
+        bb_put_short_b(bytebuffer, value);
+    } else {
+        printf("put short little endian\n");
+        bb_put_short_l(bytebuffer, value);
+    }
+}
+
+static void bb_put_short_l_at(bytebuffer_t *bytebuffer, size_t index, uint16_t value) {
+    bytebuffer->buff[index++] = value & 0xFF;
+    bytebuffer->buff[index]   = (value >> 8) & 0xFF;
+}
+
+static void bb_put_short_b_at(bytebuffer_t *bytebuffer, size_t index, uint16_t value) {
+    bytebuffer->buff[index++] = (value >> 8) & 0xFF;
+    bytebuffer->buff[index]   = value & 0xFF;
+}
+
+void bb_put_short_at(bytebuffer_t *bytebuffer, size_t index, uint16_t value) {
+    if (bytebuffer->bigEndian) {
+        printf("put short at big endian\n");
+        bb_put_short_b_at(bytebuffer, index, value);
+    } else {
+        printf("put short at little endian\n");
+        bb_put_short_l_at(bytebuffer, index, value);
+    }
 }
