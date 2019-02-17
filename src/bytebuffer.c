@@ -471,6 +471,44 @@ char *bb_get_string(bytebuffer_t *bytebuffer, size_t length) {
     return str;
 }
 
+static char *bb_get_string_l_at(bytebuffer_t *bytebuffer, size_t index, size_t length) {
+    char *str = (char *) malloc(length * sizeof(char));
+
+    for (int i = 0; i < length; i++) {
+        str[i] = bytebuffer->buff[index++];
+    }
+
+    printf("bb_get_string_l_at: [%s]\n", str);
+
+    return str;
+}
+
+static char *bb_get_string_b_at(bytebuffer_t *bytebuffer, size_t index, size_t length) {
+    char *str = (char *) malloc(length * sizeof(char));
+
+    for (int i = length - 1; i >= 0; i--) {
+        str[i] = bytebuffer->buff[index++];
+    }
+
+    printf("bb_get_string_b_at: [%s]\n", str);
+
+    return str;
+}
+
+char *bb_get_string_at(bytebuffer_t *bytebuffer, size_t index, size_t length) {
+    char *str = NULL;
+
+    if (bytebuffer->bigEndian) {
+        str = bb_get_string_b_at(bytebuffer, index, length);
+        printf("Get string at big endian: [%s]\n", str);
+    } else {
+        str = bb_get_string_l_at(bytebuffer, index, length);
+        printf("Get string at little endian: [%s]\n", str);
+    }
+
+    return str;
+}
+
 /*
  * Put methods
  */
