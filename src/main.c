@@ -90,6 +90,12 @@ int main(int argc, char const *argv[]) {
     bb_init(&bb, 8);
     bb_put_string_at(&bb, 2, "Kaixop", 6);
     bb_print(bb);
+
+    bb.pos    = 2;
+    char *str = bb_get_string(&bb, 6);
+    printf("Get string: [%s]\n", str);
+    free(str);
+
     bb_destroy(&bb);
 
     return 0;

@@ -433,6 +433,44 @@ double bb_get_double_at(bytebuffer_t bytebuffer, size_t index) {
     return res;
 }
 
+static char *bb_get_string_l(bytebuffer_t *bytebuffer, size_t length) {
+    char *str = (char *) malloc(length * sizeof(char));
+
+    for (int i = 0; i < length; i++) {
+        str[i] = bytebuffer->buff[bytebuffer->pos++];
+    }
+
+    printf("bb_get_string_l: [%s]\n", str);
+
+    return str;
+}
+
+static char *bb_get_string_b(bytebuffer_t *bytebuffer, size_t length) {
+    char *str = (char *) malloc(length * sizeof(char));
+
+    for (int i = length - 1; i >= 0; i--) {
+        str[i] = bytebuffer->buff[bytebuffer->pos++];
+    }
+
+    printf("bb_get_string_b: [%s]\n", str);
+
+    return str;
+}
+
+char *bb_get_string(bytebuffer_t *bytebuffer, size_t length) {
+    char *str = NULL;
+
+    if (bytebuffer->bigEndian) {
+        str = bb_get_string_b(bytebuffer, length);
+        printf("Get string big endian: [%s]\n", str);
+    } else {
+        str = bb_get_string_l(bytebuffer, length);
+        printf("Get string little endian: [%s]\n", str);
+    }
+
+    return str;
+}
+
 /*
  * Put methods
  */

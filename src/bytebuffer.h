@@ -52,6 +52,7 @@ uint64_t bb_get_long(bytebuffer_t *bytebuffer);
 uint64_t bb_get_long_at(bytebuffer_t bytebuffer, size_t index);
 double   bb_get_double(bytebuffer_t *bytebuffer);
 double   bb_get_double_at(bytebuffer_t bytebuffer, size_t index);
+char *   bb_get_string(bytebuffer_t *bytebuffer_t, size_t length);
 
 void bb_put(bytebuffer_t *bytebuffer, uint8_t value);
 void bb_put_at(bytebuffer_t *bytebuffer, size_t index, uint8_t value);
