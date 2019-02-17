@@ -730,3 +730,23 @@ void bb_put_string(bytebuffer_t *bytebuffer, const char *value, size_t length) {
         bb_put_string_l(bytebuffer, value, length);
     }
 }
+
+static void bb_put_string_l_at(bytebuffer_t *bytebuffer, size_t index, const char *value, size_t length) {
+    for (int i = 0; i < length; i++) {
+        bytebuffer->buff[index++] = value[i];
+    }
+}
+
+static void bb_put_string_b_at(bytebuffer_t *bytebuffer, size_t index, const char *value, size_t length) {
+    for (int i = length - 1; i >= 0; i--) {
+        bytebuffer->buff[index++] = value[i];
+    }
+}
+
+void bb_put_string_at(bytebuffer_t *bytebuffer, size_t index, const char *value, size_t length) {
+    if (bytebuffer->bigEndian) {
+        bb_put_string_b_at(bytebuffer, index, value, length);
+    } else {
+        bb_put_string_l_at(bytebuffer, index, value, length);
+    }
+}

@@ -66,5 +66,6 @@ void bb_put_long_at(bytebuffer_t *bytebuffer, size_t index, uint64_t value);
 void bb_put_double(bytebuffer_t *bytebuffer, double value);
 void bb_put_double_at(bytebuffer_t *bytebuffer, size_t index, double value);
 void bb_put_string(bytebuffer_t *bytebuffer, const char *value, size_t length);
+void bb_put_string_at(bytebuffer_t *bytebuffer, size_t index, const char *value, size_t length);
 
 #endif

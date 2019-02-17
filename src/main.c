@@ -87,8 +87,8 @@ int main(int argc, char const *argv[]) {
     bb_print(bb);
     bb_destroy(&bb);
 
-    bb_init(&bb, 6);
-    bb_put_string(&bb, "Kaixop", 6);
+    bb_init(&bb, 8);
+    bb_put_string_at(&bb, 2, "Kaixop", 6);
     bb_print(bb);
     bb_destroy(&bb);
 
