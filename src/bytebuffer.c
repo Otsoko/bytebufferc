@@ -62,7 +62,6 @@ void bb_init_order(bytebuffer_t *bytebuffer, size_t size, bb_order_t order) {
 }
 
 void bb_init_str(bytebuffer_t *bytebuffer, const char *hexstring) {
-    bb_get_machine_endianness();
     printf("Init str\n");
     bytebuffer->size      = strlen(hexstring) / 2;
     bytebuffer->pos       = 0;
