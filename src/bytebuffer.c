@@ -710,3 +710,23 @@ void bb_put_double_at(bytebuffer_t *bytebuffer, size_t index, double value) {
         bb_put_double_l_at(bytebuffer, index, value);
     }
 }
+
+static void bb_put_string_l(bytebuffer_t *bytebuffer, const char *value, size_t length) {
+    for (int i = 0; i < length; i++) {
+        bytebuffer->buff[bytebuffer->pos++] = value[i];
+    }
+}
+
+static void bb_put_string_b(bytebuffer_t *bytebuffer, const char *value, size_t length) {
+    for (int i = length - 1; i >= 0; i--) {
+        bytebuffer->buff[bytebuffer->pos++] = value[i];
+    }
+}
+
+void bb_put_string(bytebuffer_t *bytebuffer, const char *value, size_t length) {
+    if (bytebuffer->bigEndian) {
+        bb_put_string_b(bytebuffer, value, length);
+    } else {
+        bb_put_string_l(bytebuffer, value, length);
+    }
+}

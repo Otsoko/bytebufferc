@@ -83,7 +83,12 @@ int main(int argc, char const *argv[]) {
     bb_reset(&bb);
     printf("double: %f\n", bb_get_double(&bb));
 
-    printf("double at: %f\n", bb_get_double_at(bb, 0));
+    printf("double at: %f\n\n", bb_get_double_at(bb, 0));
+    bb_print(bb);
+    bb_destroy(&bb);
+
+    bb_init(&bb, 6);
+    bb_put_string(&bb, "Kaixop", 6);
     bb_print(bb);
     bb_destroy(&bb);
 
