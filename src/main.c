@@ -91,7 +91,7 @@ int main(int argc, char const *argv[]) {
     bb_put_string_at(&bb, 2, "Kaixop", 6);
     bb_print(bb);
 
-    char *str = bb_get_string_at(&bb, 2, 6);
+    char *str = bb_get_string_at(bb, 2, 6);
     printf("Get string: [%s]\n", str);
     free(str);
 
