@@ -95,7 +95,19 @@ int main(int argc, char const *argv[]) {
     printf("Get string: [%s]\n", str);
     free(str);
 
+    char *hex_string = bb_get_hex_string(bb);
+    printf("Get hex string: [%s]\n", hex_string);
+    free(hex_string);
+
+    bytebuffer_t cloned;
+    bb_clone(bb, &cloned);
+    hex_string = bb_get_hex_string(cloned);
+    printf("Get cloned hex string: [%s]\n", hex_string);
+    free(hex_string);
+    bb_print(cloned);
+
     bb_destroy(&bb);
+    bb_destroy(&cloned);
 
     return 0;
 }

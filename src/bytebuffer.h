@@ -39,6 +39,8 @@ void     bb_print(bytebuffer_t bytebuffer);
 size_t   bb_get_size(bytebuffer_t bytebuffer);
 void     bb_reset(bytebuffer_t *bytebuffer);
 uint8_t *bb_get_bytes(bytebuffer_t bytebuffer);
+char *   bb_get_hex_string(bytebuffer_t bytebuffer);
+void     bb_clone(bytebuffer_t orig, bytebuffer_t *dest);
 
 uint8_t  bb_get(bytebuffer_t *bytebuffer);
 uint8_t  bb_get_at(bytebuffer_t bytebuffer, size_t index);

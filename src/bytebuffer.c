@@ -825,3 +825,28 @@ void bb_put_string_at(bytebuffer_t *bytebuffer, size_t index, const char *value,
         bb_put_string_l_at(bytebuffer, index, value, length);
     }
 }
+
+char *bb_get_hex_string(bytebuffer_t bytebuffer) {
+    char *str        = (char *) malloc(2 * bytebuffer.size * sizeof(char));
+    char  hexArray[] = "0123456789ABCDEF";
+
+    for (size_t i = 0; i < bytebuffer.size; i++) {
+        uint8_t v      = bytebuffer.buff[i] & 0xFF;
+        str[i * 2]     = hexArray[v >> 4];
+        str[i * 2 + 1] = hexArray[v & 0x0F];
+    }
+
+    return str;
+}
+
+void bb_clone(bytebuffer_t orig, bytebuffer_t *dest) {
+    if (orig.bigEndian) {
+        bb_init_order(dest, orig.size, BB_BIG_ENDIAN);
+    } else {
+        bb_init_order(dest, orig.size, BB_LITTLE_ENDIAN);
+    }
+
+    for (size_t i = 0; i < dest->size; i++) {
+        bb_put(dest, bb_get(&orig));
+    }
+}
