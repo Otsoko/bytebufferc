@@ -8,10 +8,8 @@ static bb_order_t bb_get_machine_endianness(void) {
     bb_order_t order;
 
     if (*c) {
-        printf("This machine is little endian\n");
         order = BB_LITTLE_ENDIAN;
     } else {
-        printf("This machine is big endian");
         order = BB_BIG_ENDIAN;
     }
 
@@ -41,7 +39,6 @@ static float bb_int_bits_to_float(uint32_t value) {
  */
 
 void bb_init(bytebuffer_t *bytebuffer, size_t size) {
-    printf("Init\n");
     bytebuffer->size      = size;
     bytebuffer->pos       = 0;
     bytebuffer->buff      = (uint8_t *) malloc(size * sizeof(uint8_t));
@@ -49,7 +46,6 @@ void bb_init(bytebuffer_t *bytebuffer, size_t size) {
 }
 
 void bb_init_order(bytebuffer_t *bytebuffer, size_t size, bb_order_t order) {
-    printf("Init order\n");
     bytebuffer->size = size;
     bytebuffer->pos  = 0;
     bytebuffer->buff = (uint8_t *) malloc(size * sizeof(uint8_t));
@@ -62,7 +58,6 @@ void bb_init_order(bytebuffer_t *bytebuffer, size_t size, bb_order_t order) {
 }
 
 void bb_init_str(bytebuffer_t *bytebuffer, const char *hexstring) {
-    printf("Init str\n");
     bytebuffer->size      = strlen(hexstring) / 2;
     bytebuffer->pos       = 0;
     bytebuffer->buff      = (uint8_t *) malloc(bytebuffer->size * sizeof(uint8_t));
@@ -80,7 +75,6 @@ void bb_init_str(bytebuffer_t *bytebuffer, const char *hexstring) {
 }
 
 void bb_init_str_order(bytebuffer_t *bytebuffer, const char *hexstring, bb_order_t order) {
-    printf("Init str\n");
     bytebuffer->size = strlen(hexstring) / 2;
     bytebuffer->pos  = 0;
     bytebuffer->buff = (uint8_t *) malloc(bytebuffer->size * sizeof(uint8_t));
@@ -103,7 +97,6 @@ void bb_init_str_order(bytebuffer_t *bytebuffer, const char *hexstring, bb_order
 }
 
 void bb_destroy(bytebuffer_t *bytebuffer) {
-    printf("Destroy\n");
     bytebuffer->size = 0;
     bytebuffer->pos  = 0;
     free(bytebuffer->buff);
@@ -161,10 +154,8 @@ static uint16_t bb_get_short_b(bytebuffer_t *bytebuffer) {
 uint16_t bb_get_short(bytebuffer_t *bytebuffer) {
     uint16_t res = 0;
     if (bytebuffer->bigEndian) {
-        printf("get short big endian\n");
         res = bb_get_short_b(bytebuffer);
     } else {
-        printf("get short little endian\n");
         res = bb_get_short_l(bytebuffer);
     }
     return res;
@@ -187,10 +178,8 @@ static uint16_t bb_get_short_b_at(bytebuffer_t bytebuffer, size_t index) {
 uint16_t bb_get_short_at(bytebuffer_t bytebuffer, size_t index) {
     uint16_t res = 0;
     if (bytebuffer.bigEndian) {
-        printf("get short big endian at\n");
         res = bb_get_short_b_at(bytebuffer, index);
     } else {
-        printf("get short little endian at\n");
         res = bb_get_short_l_at(bytebuffer, index);
     }
     return res;
@@ -221,10 +210,8 @@ static uint32_t bb_get_int_b(bytebuffer_t *bytebuffer) {
 uint32_t bb_get_int(bytebuffer_t *bytebuffer) {
     uint32_t res = 0;
     if (bytebuffer->bigEndian) {
-        printf("get int big endian\n");
         res = bb_get_int_b(bytebuffer);
     } else {
-        printf("get int little endian\n");
         res = bb_get_int_l(bytebuffer);
     }
     return res;
@@ -251,10 +238,8 @@ static uint32_t bb_get_int_b_at(bytebuffer_t bytebuffer, size_t index) {
 uint32_t bb_get_int_at(bytebuffer_t bytebuffer, size_t index) {
     uint32_t res = 0;
     if (bytebuffer.bigEndian) {
-        printf("get int big endian at\n");
         res = bb_get_int_b_at(bytebuffer, index);
     } else {
-        printf("get int little endian at\n");
         res = bb_get_int_l_at(bytebuffer, index);
     }
     return res;
@@ -311,10 +296,8 @@ static uint64_t bb_get_long_b(bytebuffer_t *bytebuffer) {
 uint64_t bb_get_long(bytebuffer_t *bytebuffer) {
     uint64_t res = 0;
     if (bytebuffer->bigEndian) {
-        printf("get long big endian\n");
         res = bb_get_long_b(bytebuffer);
     } else {
-        printf("get long little endian\n");
         res = bb_get_long_l(bytebuffer);
     }
     return res;
@@ -359,10 +342,8 @@ static uint64_t bb_get_long_b_at(bytebuffer_t bytebuffer, size_t index) {
 uint64_t bb_get_long_at(bytebuffer_t bytebuffer, size_t index) {
     uint64_t res = 0;
     if (bytebuffer.bigEndian) {
-        printf("get long big endian at\n");
         res = bb_get_long_b_at(bytebuffer, index);
     } else {
-        printf("get long little endian at\n");
         res = bb_get_long_l_at(bytebuffer, index);
     }
     return res;
@@ -391,10 +372,8 @@ static double bb_get_double_b(bytebuffer_t *bytebuffer) {
 double bb_get_double(bytebuffer_t *bytebuffer) {
     double res = 0;
     if (bytebuffer->bigEndian) {
-        printf("get double big endian\n");
         res = bb_get_double_b(bytebuffer);
     } else {
-        printf("get double little endian\n");
         res = bb_get_double_l(bytebuffer);
     }
     return res;
@@ -423,10 +402,8 @@ static double bb_get_double_b_at(bytebuffer_t bytebuffer, size_t index) {
 double bb_get_double_at(bytebuffer_t bytebuffer, size_t index) {
     double res = 0;
     if (bytebuffer.bigEndian) {
-        printf("get long big endian at\n");
         res = bb_get_double_b_at(bytebuffer, index);
     } else {
-        printf("get long little endian at\n");
         res = bb_get_double_l_at(bytebuffer, index);
     }
     return res;
@@ -439,8 +416,6 @@ static char *bb_get_string_l(bytebuffer_t *bytebuffer, size_t length) {
         str[i] = bytebuffer->buff[bytebuffer->pos++];
     }
 
-    printf("bb_get_string_l: [%s]\n", str);
-
     return str;
 }
 
@@ -451,8 +426,6 @@ static char *bb_get_string_b(bytebuffer_t *bytebuffer, size_t length) {
         str[i] = bytebuffer->buff[bytebuffer->pos++];
     }
 
-    printf("bb_get_string_b: [%s]\n", str);
-
     return str;
 }
 
@@ -461,10 +434,8 @@ char *bb_get_string(bytebuffer_t *bytebuffer, size_t length) {
 
     if (bytebuffer->bigEndian) {
         str = bb_get_string_b(bytebuffer, length);
-        printf("Get string big endian: [%s]\n", str);
     } else {
         str = bb_get_string_l(bytebuffer, length);
-        printf("Get string little endian: [%s]\n", str);
     }
 
     return str;
@@ -477,8 +448,6 @@ static char *bb_get_string_l_at(bytebuffer_t *bytebuffer, size_t index, size_t l
         str[i] = bytebuffer->buff[index++];
     }
 
-    printf("bb_get_string_l_at: [%s]\n", str);
-
     return str;
 }
 
@@ -489,8 +458,6 @@ static char *bb_get_string_b_at(bytebuffer_t *bytebuffer, size_t index, size_t l
         str[i] = bytebuffer->buff[index++];
     }
 
-    printf("bb_get_string_b_at: [%s]\n", str);
-
     return str;
 }
 
@@ -499,10 +466,8 @@ char *bb_get_string_at(bytebuffer_t *bytebuffer, size_t index, size_t length) {
 
     if (bytebuffer->bigEndian) {
         str = bb_get_string_b_at(bytebuffer, index, length);
-        printf("Get string at big endian: [%s]\n", str);
     } else {
         str = bb_get_string_l_at(bytebuffer, index, length);
-        printf("Get string at little endian: [%s]\n", str);
     }
 
     return str;
@@ -532,10 +497,8 @@ static void bb_put_short_b(bytebuffer_t *bytebuffer, uint16_t value) {
 
 void bb_put_short(bytebuffer_t *bytebuffer, uint16_t value) {
     if (bytebuffer->bigEndian) {
-        printf("put short big endian\n");
         bb_put_short_b(bytebuffer, value);
     } else {
-        printf("put short little endian\n");
         bb_put_short_l(bytebuffer, value);
     }
 }
@@ -552,10 +515,8 @@ static void bb_put_short_b_at(bytebuffer_t *bytebuffer, size_t index, uint16_t v
 
 void bb_put_short_at(bytebuffer_t *bytebuffer, size_t index, uint16_t value) {
     if (bytebuffer->bigEndian) {
-        printf("put short at big endian\n");
         bb_put_short_b_at(bytebuffer, index, value);
     } else {
-        printf("put short at little endian\n");
         bb_put_short_l_at(bytebuffer, index, value);
     }
 }
@@ -576,10 +537,8 @@ static void bb_put_int_b(bytebuffer_t *bytebuffer, uint32_t value) {
 
 void bb_put_int(bytebuffer_t *bytebuffer, uint32_t value) {
     if (bytebuffer->bigEndian) {
-        printf("put int big endian\n");
         bb_put_int_b(bytebuffer, value);
     } else {
-        printf("put int little endian\n");
         bb_put_int_l(bytebuffer, value);
     }
 }
@@ -600,10 +559,8 @@ static void bb_put_int_b_at(bytebuffer_t *bytebuffer, size_t index, uint32_t val
 
 void bb_put_int_at(bytebuffer_t *bytebuffer, size_t index, uint32_t value) {
     if (bytebuffer->bigEndian) {
-        printf("put int at big endian\n");
         bb_put_int_b_at(bytebuffer, index, value);
     } else {
-        printf("put int at little endian\n");
         bb_put_int_l_at(bytebuffer, index, value);
     }
 }
@@ -658,10 +615,8 @@ static void bb_put_float_b_at(bytebuffer_t *bytebuffer, size_t index, float valu
 
 void bb_put_float_at(bytebuffer_t *bytebuffer, size_t index, float value) {
     if (bytebuffer->bigEndian) {
-        printf("put float at big endian\n");
         bb_put_float_b_at(bytebuffer, index, value);
     } else {
-        printf("put float at little endian\n");
         bb_put_float_l_at(bytebuffer, index, value);
     }
 }
@@ -690,10 +645,8 @@ static void bb_put_long_b(bytebuffer_t *bytebuffer, uint64_t value) {
 
 void bb_put_long(bytebuffer_t *bytebuffer, uint64_t value) {
     if (bytebuffer->bigEndian) {
-        printf("put long big endian\n");
         bb_put_long_b(bytebuffer, value);
     } else {
-        printf("put long little endian\n");
         bb_put_long_l(bytebuffer, value);
     }
 }
@@ -722,10 +675,8 @@ static void bb_put_long_b_at(bytebuffer_t *bytebuffer, size_t index, uint64_t va
 
 void bb_put_long_at(bytebuffer_t *bytebuffer, size_t index, uint64_t value) {
     if (bytebuffer->bigEndian) {
-        printf("put long at big endian\n");
         bb_put_long_b_at(bytebuffer, index, value);
     } else {
-        printf("put long at little endian\n");
         bb_put_long_l_at(bytebuffer, index, value);
     }
 }
@@ -750,10 +701,8 @@ static void bb_put_double_b(bytebuffer_t *bytebuffer, double value) {
 
 void bb_put_double(bytebuffer_t *bytebuffer, double value) {
     if (bytebuffer->bigEndian) {
-        printf("put double big endian\n");
         bb_put_double_b(bytebuffer, value);
     } else {
-        printf("put double little endian\n");
         bb_put_double_l(bytebuffer, value);
     }
 }
@@ -778,10 +727,8 @@ void bb_put_double_b_at(bytebuffer_t *bytebuffer, size_t index, double value) {
 
 void bb_put_double_at(bytebuffer_t *bytebuffer, size_t index, double value) {
     if (bytebuffer->bigEndian) {
-        printf("put double at big endian\n");
         bb_put_double_b_at(bytebuffer, index, value);
     } else {
-        printf("put double at little endian\n");
         bb_put_double_l_at(bytebuffer, index, value);
     }
 }
