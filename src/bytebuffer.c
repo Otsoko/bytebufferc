@@ -787,13 +787,12 @@ char *bb_get_hex_string(bytebuffer_t bytebuffer) {
 }
 
 void bb_clone(bytebuffer_t orig, bytebuffer_t *dest) {
-    if (orig.bigEndian) {
-        bb_init_order(dest, orig.size, BB_BIG_ENDIAN);
-    } else {
-        bb_init_order(dest, orig.size, BB_LITTLE_ENDIAN);
-    }
+    bb_init(dest, orig.size);
 
     for (size_t i = 0; i < dest->size; i++) {
-        bb_put(dest, bb_get(&orig));
+        bb_put_at(dest, i, bb_get_at(orig, i));
     }
+
+    dest->pos       = orig.pos;
+    dest->bigEndian = orig.bigEndian;
 }
