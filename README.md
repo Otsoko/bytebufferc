@@ -1,5 +1,5 @@
 # ByteBuffer #
-ByteBuffer implementation on C
+ByteBuffer implementation in C
 
 ## How to use ##
 To include header
